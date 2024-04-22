@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,10 +35,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.chill.R
@@ -49,10 +48,18 @@ import kotlinx.coroutines.delay
 fun MovieItemCard(
     modifier: Modifier = Modifier,
     imgPath: String,
+    result: Result,
+    onItemSelected: (Result) -> Unit,
 ) {
     Card(
         modifier = modifier
-            .size(width = 150.dp, height = 220.dp),
+            .size(width = 150.dp, height = 220.dp)
+            .clickable(
+                enabled = true,
+                onClick = {
+                    onItemSelected(result)
+                }
+            ),
         shape = RoundedCornerShape(20.dp)
     ) {
        // Text(text = imgPath)
@@ -67,10 +74,12 @@ fun MovieItemCard(
     }
 }
 
-@Preview(showSystemUi = true)
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MovieGrid(
-    viewModel: HomeViewModel = hiltViewModel()
+fun HomeMoviesScreen(
+    viewModel: HomeViewModel ,
+    onItemSelected: (Result) -> Unit
 ) {
     Column {
         MovieCarousel()
@@ -86,7 +95,9 @@ fun MovieGrid(
                 it.poster_path?.let { img_path ->
                     MovieItemCard(
                         modifier = Modifier.padding(8.dp),
-                        imgPath = img_path
+                        imgPath = img_path,
+                        result = it,
+                        onItemSelected = onItemSelected
                     )
                 }
             }
