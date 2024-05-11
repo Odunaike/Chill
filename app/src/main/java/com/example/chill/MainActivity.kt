@@ -20,10 +20,8 @@ import com.example.chill.presentation.Authentication.AuthenticationViewModel
 import com.example.chill.presentation.Authentication.LoginScreen
 import com.example.chill.presentation.Authentication.SignupScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.chill.presentation.Authentication.AuthState
 import com.example.chill.presentation.Home.HomeViewModel
-import com.example.chill.presentation.Home.MovieDetailsScreen
-import com.example.chill.presentation.Home.HomeMoviesScreen
+import com.example.chill.presentation.MainApp
 import com.example.chill.ui.theme.ChillTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,7 +39,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold {
                         val navController = rememberNavController()
-                        val viewModel: HomeViewModel = hiltViewModel()
+                        val homeViewModel: HomeViewModel = hiltViewModel()
                         val authViewModel: AuthenticationViewModel = viewModel() //I didn't use dagger to create viewmodel since I was not injecting any dependency in the viewmodel
                         NavHost(
                             navController = navController,
@@ -49,21 +47,10 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.padding(it)
                         ){
                             composable(
-                                route = ChillAppDestinations.Home.name
+                                route = ChillAppDestinations.MainApp.name
                             ){
-                                HomeMoviesScreen(
-                                    onItemSelected = {
-                                        viewModel.setClickedItem(result = it)
-                                        navController.navigate(ChillAppDestinations.Detail.name)
-                                    },
-                                    viewModel = viewModel
-                                )
-                            }
-                            composable(
-                                route = ChillAppDestinations.Detail.name
-                            ){
-                                MovieDetailsScreen(
-                                    viewModel = viewModel
+                                MainApp(
+                                    viewModel = homeViewModel
                                 )
                             }
                             //added the screens for login and signup
@@ -81,7 +68,7 @@ class MainActivity : ComponentActivity() {
                                         authViewModel.resetAuthUiState()
                                         authViewModel.resetAuthState()
                                     },
-                                    navigateToHome = {navController.navigate(ChillAppDestinations.Home.name)}
+                                    navigateToHome = {navController.navigate(ChillAppDestinations.MainApp.name)}
                                 )
                             }
                             composable(
