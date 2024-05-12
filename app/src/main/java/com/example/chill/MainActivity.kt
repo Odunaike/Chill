@@ -50,8 +50,15 @@ class MainActivity : ComponentActivity() {
                                 route = ChillAppDestinations.MainApp.name
                             ){
                                 MainApp(
-                                    viewModel = homeViewModel
-                                )
+                                    homeViewModel = homeViewModel,
+                                    authenticationViewModel = authViewModel
+                                ){
+                                    navController.navigate(ChillAppDestinations.Login.name){
+                                        popUpTo(ChillAppDestinations.MainApp.name){
+                                            inclusive = true
+                                        }
+                                    }
+                                }
                             }
                             //added the screens for login and signup
                             composable(
@@ -66,9 +73,13 @@ class MainActivity : ComponentActivity() {
                                     onClickLogin = {
                                         authViewModel.signIntoAccountWithEmail()
                                         authViewModel.resetAuthUiState()
+                                        navController.navigate(ChillAppDestinations.MainApp.name){
+                                            popUpTo(ChillAppDestinations.Login.name){
+                                                inclusive = true
+                                            }
+                                        }
                                         authViewModel.resetAuthState()
                                     },
-                                    navigateToHome = {navController.navigate(ChillAppDestinations.MainApp.name)}
                                 )
                             }
                             composable(

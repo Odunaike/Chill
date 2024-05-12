@@ -2,6 +2,7 @@ package com.example.chill.presentation.Account
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Email
-import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.Divider
@@ -33,13 +33,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chill.R
-@Preview(showBackground = true, showSystemUi = true)
+import com.example.chill.presentation.Authentication.AuthenticationViewModel
+
 @Composable
-fun AccountScreen(){
+fun AccountScreen(authenticationViewModel: AuthenticationViewModel, navigateToLogin: ()-> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -62,12 +62,12 @@ fun AccountScreen(){
             modifier = Modifier.fillMaxWidth().padding(5.dp),
             textAlign = TextAlign.Start
         )
-        UtilityList()
+        UtilityList(authenticationViewModel, navigateToLogin)
     }
 }
-@Preview(showBackground = true, showSystemUi = true)
+
 @Composable
-fun UtilityList(){
+fun UtilityList(authenticationViewModel: AuthenticationViewModel, navigateToLogin: () -> Unit) {
     Column(
         modifier = Modifier
             .padding(5.dp)
@@ -76,30 +76,41 @@ fun UtilityList(){
     ){
         LazyColumn(){
             items(items = utilityList){
-                UtilityItem()
+                UtilityItem(item = it, authenticationViewModel, navigateToLogin)
             }
         }
     }
 }
 
-@Preview(showBackground = true)
+
 @Composable
-fun UtilityItem(){
+fun UtilityItem(item: UtilityItem, authenticationViewModel: AuthenticationViewModel, navigateToLogin: () -> Unit){
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
+                .height(50.dp)
+                .clickable(enabled = true) {
+                    onClickUtilityItem(
+                        id = item.id,
+                        signOut = {
+                            authenticationViewModel.signOut()
+                            navigateToLogin()
+                        }
+                    )
+                },
             verticalAlignment = Alignment.CenterVertically
         ){
             Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
+                    .size(30.dp)
                     .background(color = Color.Green, shape = CircleShape)
             ){
-                Icon(imageVector = Icons.Rounded.Home, contentDescription = null, tint = Color.White)
+                Icon(imageVector = item.icon, contentDescription = null, tint = Color.White)
             }
             Text(
-                text = "Log Out",
+                text = item.title,
                 fontSize = 18.sp,
                 modifier = Modifier
                     .weight(1f)
@@ -136,3 +147,8 @@ private val utilityList: List<UtilityItem> = listOf(
         title = "Log Out"
     ),
 )
+private fun onClickUtilityItem(id: Int, signOut: ()-> Unit){
+    when(id){
+       4 -> signOut()
+    }
+}

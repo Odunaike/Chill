@@ -70,6 +70,12 @@ class AuthenticationViewModel: ViewModel() {
             }
     }
 
+    //function to signOut
+    fun signOut(){
+        auth.signOut()
+        Log.d("foo", "sign out successful")
+    }
+
     //the below function is necessary to clear the text when I navigate
     fun resetAuthUiState(){
         authenticationUiState = AuthenticationUiState()

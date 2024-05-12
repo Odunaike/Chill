@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.chill.ChillAppDestinations
 import com.example.chill.presentation.Account.AccountScreen
+import com.example.chill.presentation.Authentication.AuthenticationViewModel
 import com.example.chill.presentation.Home.HomeMoviesScreen
 import com.example.chill.presentation.Home.HomeViewModel
 import com.example.chill.presentation.Home.MovieDetailsScreen
@@ -36,7 +37,9 @@ val screens = listOf(HomeScreen, FavoritesScreen, AccountScreen)
 
 @Composable
 fun MainApp(
-    viewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    authenticationViewModel: AuthenticationViewModel,
+    navigateToLogin: ()->Unit
 ){
     val navController = rememberNavController()
 
@@ -58,24 +61,24 @@ fun MainApp(
             composable(
                 route = ChillAppDestinations.Account.name
             ){
-                AccountScreen()
+                AccountScreen(authenticationViewModel, navigateToLogin )
             }
             composable(
                 route = ChillAppDestinations.Home.name
             ){
                 HomeMoviesScreen(
                     onItemSelected = {
-                        viewModel.setClickedItem(result = it)
+                        homeViewModel.setClickedItem(result = it)
                         navController.navigate(ChillAppDestinations.Detail.name)
                     },
-                    viewModel = viewModel
+                    viewModel = homeViewModel
                 )
             }
             composable(
                 route = ChillAppDestinations.Detail.name
             ){
                 MovieDetailsScreen(
-                    viewModel = viewModel
+                    viewModel = homeViewModel
                 )
             }
         }

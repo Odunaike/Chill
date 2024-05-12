@@ -26,8 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun LoginScreen(
     viewModel: AuthenticationViewModel,
     onClickToSignUp: () -> Unit,
-    onClickLogin: () -> Unit,
-    navigateToHome: () -> Unit
+    onClickLogin: () -> Unit
 ){
     Column(
         verticalArrangement = Arrangement.Center,
@@ -90,6 +89,7 @@ fun LoginScreen(
             Text(text = "sign in with google")
         }
     }
+    /*
     LaunchedEffect(key1 = viewModel.authState.isLoginSuccessful){
         if(viewModel.authState.isLoginSuccessful){
             navigateToHome()
@@ -97,4 +97,5 @@ fun LoginScreen(
             Log.d("foo", "there is a problem")
         }
     }
+     */
 }
