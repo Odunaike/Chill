@@ -39,7 +39,7 @@ import com.example.chill.R
 import com.example.chill.presentation.Authentication.AuthenticationViewModel
 
 @Composable
-fun AccountScreen(authenticationViewModel: AuthenticationViewModel, navigateToLogin: ()-> Unit) {
+fun AccountScreen(authenticationViewModel: AuthenticationViewModel, signOut: ()-> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -62,12 +62,12 @@ fun AccountScreen(authenticationViewModel: AuthenticationViewModel, navigateToLo
             modifier = Modifier.fillMaxWidth().padding(5.dp),
             textAlign = TextAlign.Start
         )
-        UtilityList(authenticationViewModel, navigateToLogin)
+        UtilityList(authenticationViewModel = authenticationViewModel, signOut = signOut)
     }
 }
 
 @Composable
-fun UtilityList(authenticationViewModel: AuthenticationViewModel, navigateToLogin: () -> Unit) {
+fun UtilityList(authenticationViewModel: AuthenticationViewModel, signOut: () -> Unit) {
     Column(
         modifier = Modifier
             .padding(5.dp)
@@ -76,7 +76,7 @@ fun UtilityList(authenticationViewModel: AuthenticationViewModel, navigateToLogi
     ){
         LazyColumn(){
             items(items = utilityList){
-                UtilityItem(item = it, authenticationViewModel, navigateToLogin)
+                UtilityItem(item = it, authenticationViewModel = authenticationViewModel, signOut = signOut)
             }
         }
     }
@@ -84,7 +84,7 @@ fun UtilityList(authenticationViewModel: AuthenticationViewModel, navigateToLogi
 
 
 @Composable
-fun UtilityItem(item: UtilityItem, authenticationViewModel: AuthenticationViewModel, navigateToLogin: () -> Unit){
+fun UtilityItem(item: UtilityItem, authenticationViewModel: AuthenticationViewModel, signOut: () -> Unit){
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         Row (
             modifier = Modifier
@@ -95,7 +95,7 @@ fun UtilityItem(item: UtilityItem, authenticationViewModel: AuthenticationViewMo
                         id = item.id,
                         signOut = {
                             authenticationViewModel.signOut()
-                            navigateToLogin()
+                            signOut()
                         }
                     )
                 },

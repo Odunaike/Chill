@@ -108,4 +108,7 @@ dependencies {
     // Also add the dependency for the Google Play services library and specify its version
     implementation("com.google.android.gms:play-services-auth:21.1.0")
 
+    //for data store
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+
 }

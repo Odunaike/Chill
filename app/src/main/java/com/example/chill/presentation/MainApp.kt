@@ -39,7 +39,7 @@ val screens = listOf(HomeScreen, FavoritesScreen, AccountScreen)
 fun MainApp(
     homeViewModel: HomeViewModel,
     authenticationViewModel: AuthenticationViewModel,
-    navigateToLogin: ()->Unit
+    signOut: ()->Unit
 ){
     val navController = rememberNavController()
 
@@ -61,7 +61,7 @@ fun MainApp(
             composable(
                 route = ChillAppDestinations.Account.name
             ){
-                AccountScreen(authenticationViewModel, navigateToLogin )
+                AccountScreen(authenticationViewModel, signOut = signOut)
             }
             composable(
                 route = ChillAppDestinations.Home.name

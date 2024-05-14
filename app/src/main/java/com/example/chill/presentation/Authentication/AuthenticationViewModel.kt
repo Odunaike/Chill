@@ -56,12 +56,12 @@ class AuthenticationViewModel: ViewModel() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener{task ->
                 if (task.isSuccessful){
-                    Log.d("foo", "login successful")
                     authState = authState.copy(
                         isLoginSuccessful = true
                     )
-                }else{
                     Log.d("foo", "login successful")
+                }else{
+                    Log.d("foo", "login not successful")
                     authState = authState.copy(
                         isLoginSuccessful = false,
                         message = task.exception?.message
@@ -73,6 +73,9 @@ class AuthenticationViewModel: ViewModel() {
     //function to signOut
     fun signOut(){
         auth.signOut()
+        authState = authState.copy(
+            isLoginSuccessful = false
+        )
         Log.d("foo", "sign out successful")
     }
 
