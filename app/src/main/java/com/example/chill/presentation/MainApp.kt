@@ -42,6 +42,7 @@ fun MainApp(
     signOut: ()->Unit
 ){
     val navController = rememberNavController()
+    val currentUser = authenticationViewModel.currentUser
 
     Scaffold (
         bottomBar = {
@@ -61,12 +62,16 @@ fun MainApp(
             composable(
                 route = ChillAppDestinations.Account.name
             ){
-                AccountScreen(authenticationViewModel, signOut = signOut)
+                AccountScreen(
+                    currentUser = currentUser,
+                    authenticationViewModel = authenticationViewModel,
+                    signOut = signOut)
             }
             composable(
                 route = ChillAppDestinations.Home.name
             ){
                 HomeMoviesScreen(
+                    currentUser = currentUser,
                     onItemSelected = {
                         homeViewModel.setClickedItem(result = it)
                         navController.navigate(ChillAppDestinations.Detail.name)

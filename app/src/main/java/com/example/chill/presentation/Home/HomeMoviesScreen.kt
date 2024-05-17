@@ -42,6 +42,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.chill.R
 import com.example.chill.domain.model.Result
+import com.example.chill.presentation.CurrentUser
 import kotlinx.coroutines.delay
 
 
@@ -79,12 +80,13 @@ fun MovieItemCard(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeMoviesScreen(
+    currentUser: CurrentUser,
     viewModel: HomeViewModel ,
     onItemSelected: (Result) -> Unit
 ) {
     Column {
         Text(
-            text = "Hello, Odunaike",
+            text = "Hello, ${currentUser.username}",
             fontWeight = FontWeight.Bold,
             fontSize = 30.sp
         )

@@ -37,9 +37,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chill.R
 import com.example.chill.presentation.Authentication.AuthenticationViewModel
+import com.example.chill.presentation.CurrentUser
 
 @Composable
-fun AccountScreen(authenticationViewModel: AuthenticationViewModel, signOut: ()-> Unit) {
+fun AccountScreen(
+    currentUser: CurrentUser,
+    authenticationViewModel: AuthenticationViewModel,
+    signOut: ()-> Unit
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -53,7 +58,7 @@ fun AccountScreen(authenticationViewModel: AuthenticationViewModel, signOut: ()-
             contentDescription = "profile picture"
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Odunaike David", fontSize = 20.sp)
+        Text(text = "${currentUser.username}", fontSize = 20.sp)
         Spacer(modifier = Modifier.height(70.dp))
         Text(
             text = "Settings",
