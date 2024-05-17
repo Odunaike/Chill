@@ -33,6 +33,17 @@ fun SignupScreen(
             .fillMaxSize()
             .padding(20.dp)
     ) {
+        //for username entry
+        OutlinedTextField(
+            value = viewModel.authenticationUiState.username,
+            onValueChange = {
+                viewModel.onUsernameChanged(it)
+            },
+            placeholder = { Text(text = "Enter your username") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp)
+        )
         OutlinedTextField(
             value = viewModel.authenticationUiState.email,
             onValueChange = {

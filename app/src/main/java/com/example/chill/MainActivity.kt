@@ -144,6 +144,7 @@ class MainActivity : ComponentActivity() {
                                     viewModel = authViewModel,
                                     onSignUp = {
                                         authViewModel.createAccountWithMail()
+                                        authViewModel.saveUsername()
                                         navController.navigateUp()
                                         authViewModel.resetAuthUiState()
                                         authViewModel.resetAuthState()

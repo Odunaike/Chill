@@ -111,4 +111,6 @@ dependencies {
     //for data store
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
+    //for realtime database
+    implementation("com.google.firebase:firebase-database:21.0.0")
 }

@@ -7,11 +7,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.database
 
 
 class AuthenticationViewModel: ViewModel() {
 
     val auth = Firebase.auth
+    lateinit var database : FirebaseDatabase
 
     var authenticationUiState by mutableStateOf(
         AuthenticationUiState()
@@ -28,6 +31,11 @@ class AuthenticationViewModel: ViewModel() {
     fun onPasswordChanged(value : String){
         authenticationUiState = authenticationUiState.copy(
             password = value
+        )
+    }
+    fun onUsernameChanged(value: String) {
+        authenticationUiState = authenticationUiState.copy(
+            username = value
         )
     }
 
@@ -68,6 +76,13 @@ class AuthenticationViewModel: ViewModel() {
                     )
                 }
             }
+    }
+
+    fun saveUsername(){
+        database = Firebase.database
+        val reference = database.reference
+        reference.child("Users").child("username")
+            .setValue(authenticationUiState.username)
     }
 
     //function to signOut
