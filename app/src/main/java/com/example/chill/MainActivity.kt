@@ -144,9 +144,8 @@ class MainActivity : ComponentActivity() {
                                     viewModel = authViewModel,
                                     onSignUp = {
                                         authViewModel.createAccountWithMail()
-                                        authViewModel.saveUsername()
                                         navController.navigateUp()
-                                        authViewModel.resetAuthUiState()
+                                        //authViewModel.resetAuthUiState() commented this because it runs before the username is saved to the server, I put it in the sign up function
                                         authViewModel.resetAuthState()
                                     },
                                 )

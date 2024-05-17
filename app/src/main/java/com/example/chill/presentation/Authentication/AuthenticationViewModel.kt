@@ -6,15 +6,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
+import kotlin.math.log
 
 
 class AuthenticationViewModel: ViewModel() {
 
     val auth = Firebase.auth
     lateinit var database : FirebaseDatabase
+    var user: FirebaseUser? = null
 
     var authenticationUiState by mutableStateOf(
         AuthenticationUiState()
@@ -49,6 +52,9 @@ class AuthenticationViewModel: ViewModel() {
                     authState = authState.copy(
                         isSignupuccessful = true
                     )
+                    user = auth.currentUser
+                    saveUsername(user) //rather than saving from the UI, I just did it here for easy access to the currentUser
+                    resetAuthUiState()
                 }else{
                     Log.d("foo", "signup failed")
                     authState = authState.copy(
@@ -78,11 +84,17 @@ class AuthenticationViewModel: ViewModel() {
             }
     }
 
-    fun saveUsername(){
+    private fun saveUsername(user: FirebaseUser?){
         database = Firebase.database
-        val reference = database.reference
-        reference.child("Users").child("username")
-            .setValue(authenticationUiState.username)
+        user?.let {
+            val reference = database.reference
+            val userID = it.uid
+            reference.child("Users")
+                .child(userID)
+                .child("username")
+                .setValue(authenticationUiState.username)
+            Log.i("foo", "user is not null")
+        }
     }
 
     //function to signOut

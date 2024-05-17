@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -82,6 +83,11 @@ fun HomeMoviesScreen(
     onItemSelected: (Result) -> Unit
 ) {
     Column {
+        Text(
+            text = "Hello, Odunaike",
+            fontWeight = FontWeight.Bold,
+            fontSize = 30.sp
+        )
         MovieCarousel()
         var myList: List<Result> = viewModel.state.movieList
         Text(
