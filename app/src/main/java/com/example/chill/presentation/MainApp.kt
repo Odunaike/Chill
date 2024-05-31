@@ -83,7 +83,8 @@ fun MainApp(
                 route = ChillAppDestinations.Detail.name
             ){
                 MovieDetailsScreen(
-                    viewModel = homeViewModel
+                    viewModel = homeViewModel,
+                    authViewModeL = authenticationViewModel
                 )
             }
         }

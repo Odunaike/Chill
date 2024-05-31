@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.chill.domain.model.FavMovieModel
 import com.example.chill.presentation.CurrentUser
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
@@ -129,6 +130,41 @@ class AuthenticationViewModel: ViewModel() {
                 }
             }
         )
+    }
+
+    fun retrieveUserFavList(): MutableList<FavMovieModel>{
+        database = Firebase.database
+        val userID = user!!.uid
+        val reference = database.getReference("Users/$userID/favorites")
+        val userFavList = mutableListOf<FavMovieModel>()
+        reference.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (snap in snapshot.children){
+                        val favItem = snap.getValue(FavMovieModel::class.java)
+                        favItem?.let { userFavList.add(it) }
+                    }
+                    Log.i("foo", "retrieve worked and size is ${userFavList.size}")
+                }
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            }
+        )
+        return userFavList
+    }
+
+    fun saveUserFavList(favList: List<FavMovieModel>){
+        database = Firebase.database
+        val reference = database.reference
+        user?.let {
+            val userID = it.uid
+            reference.child("Users")
+                .child(userID)
+                .child("favorites")
+                .setValue(favList)
+            Log.i("foo", "added the list")
+        }
     }
 
     //function to signOut
