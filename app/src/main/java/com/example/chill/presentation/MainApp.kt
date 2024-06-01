@@ -26,6 +26,7 @@ import com.example.chill.presentation.Authentication.AuthenticationViewModel
 import com.example.chill.presentation.Home.HomeMoviesScreen
 import com.example.chill.presentation.Home.HomeViewModel
 import com.example.chill.presentation.Home.MovieDetailsScreen
+import com.example.chill.presentation.favorites.FavoritesScreen
 
 
 sealed class Screens(val route: String, val icon:ImageVector)
@@ -57,7 +58,7 @@ fun MainApp(
             composable(
                 route = ChillAppDestinations.Favorites.name
             ){
-
+                FavoritesScreen(authViewModel = authenticationViewModel )
             }
             composable(
                 route = ChillAppDestinations.Account.name
